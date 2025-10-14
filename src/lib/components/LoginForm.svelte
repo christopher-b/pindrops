@@ -29,10 +29,10 @@
 	}
 </script>
 
-<h1>Login</h1>
 <form on:submit|preventDefault={handleLogin}>
+  <h1>Login</h1>
   <label>
-    Handle (e.g., user.bsky.social)
+    Handle
     <input
       type="text"
       bind:value={handle}
@@ -51,15 +51,24 @@
 </form>
 
 <style>
-	.login-container {
+  form {
+    padding: 1rem;
 		max-width: 400px;
-		margin: 2rem auto;
-	}
+		margin: 10px auto;
+    background-color: #fff;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
 
-	form {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+  h1 {
+    margin: 0;
+  }
+
+	form {
 	}
 
 	label {
