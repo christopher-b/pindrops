@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { handle, did, logout } from '$lib/stores/auth.ts';
+  function onclick() {
+    logout()
+  }
 </script>
 
 <nav>
 	<h1>PinDrop</h1>
     <p>
       Logged in as
-      {#if authStore.handle}
-        <strong title="{authStore.did}">{authStore.handle}</strong>
+      {#if $handle}
+        <strong title="{$did}">{$handle}</strong>
       {:else}
         <em>Loading...</em>
       {/if}
     </p>
-  <button onclick={() => authStore.logout()}>Logout</button>
+  <button {onclick}>Logout</button>
 </nav>
 
 <style>

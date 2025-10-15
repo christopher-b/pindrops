@@ -1,5 +1,5 @@
 // Define your custom ATProto lexicon schema
-export const CUSTOM_NSID = 'app.pindrop.pin'; // Replace with your namespace
+export const NSID = 'com.pindrop.pin'; // Replace with your namespace
 
 export interface Pin {
 	label: string;

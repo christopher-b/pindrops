@@ -1,23 +1,23 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { isLoading as isAuthLoading, init as authInit, error as authError, isAuthenticated } from '$lib/stores/auth.ts';
   import  LoginForm from '$lib/components/LoginForm.svelte'
   import  MapView from '$lib/components/MapView.svelte'
   import  NavBar from '$lib/components/NavBar.svelte'
 
 	onMount(() => {
-		authStore.init();
+    authInit();
 	});
 </script>
 
 <div class="home">
 
-	{#if authStore.isLoading}
+	{#if $isAuthLoading}
 		<p>Loading...</p>
-	{:else if authStore.error}
-		<p class="error">{authStore.error}</p>
-	{:else if authStore.isAuthenticated}
-    <NavBar></NavBar>
+	{:else if $authError}
+		<p class="error">{$authError}</p>
+	{:else if $isAuthenticated}
+    <NavBar/>
 	{:else}
     <LoginForm />
 	{/if}

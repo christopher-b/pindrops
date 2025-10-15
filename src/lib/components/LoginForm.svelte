@@ -5,7 +5,9 @@
 	let isLoggingIn = false;
 	let error = '';
 
-	async function handleLogin() {
+	async function onsubmit(event) {
+    event.preventDefault();
+
 		if (!handle) {
 			error = 'Please enter your handle';
 			return;
@@ -29,8 +31,8 @@
 	}
 </script>
 
-<form on:submit|preventDefault={handleLogin}>
-  <h1>Login</h1>
+<form {onsubmit}>
+  <h2>Login</h2>
   <label>
     Handle
     <input
@@ -64,7 +66,7 @@
 		gap: 1rem;
 	}
 
-  h1 {
+  h2 {
     margin: 0;
   }
 
