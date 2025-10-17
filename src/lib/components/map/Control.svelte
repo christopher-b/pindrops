@@ -1,35 +1,35 @@
 <script context="module">
-  import { Control } from 'leaflet';
+  import { Control } from 'leaflet'
 
-  class PControl extends Control {
+  class _Control extends Control {
     constructor(el, position) {
-      super({ position });
-      this.el = el;
+      super({ position })
+      this.el = el
     }
     onAdd() {
-      return this.el;
+      return this.el
     }
     onRemove() {}
   }
 </script>
 
 <script>
-  import { getContext } from 'svelte';
+  import { getContext } from 'svelte'
 
   let { children, position } = $props()
   let control
   const map = getContext('map')()
 
   function leafletControl(node) {
-    control = new PControl(node, position)
-    control.addTo(map);
+    control = new _Control(node, position)
+    control.addTo(map)
 
     return {
       destroy() {
-        control.remove();
-        control = undefined;
+        control.remove()
+        control = undefined
       },
-    };
+    }
   }
 </script>
 
