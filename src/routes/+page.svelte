@@ -10,6 +10,8 @@
   import Authentication from '$lib/components/Authentication.svelte'
   import PinMarker from '$lib/components/PinMarker.svelte'
 
+  const pins = pinStore.pins
+
 	pinStore.addPin("test", {
 		id:123, lat: 25, lng: -40, label: "TEST"
 	})
@@ -17,18 +19,31 @@
   $effect(() => {
     authInit()
   })
+
+  const onclick = function(event) {
+    // const {lat, lng} = event.latlng
+
+    pinStore.addPin("test", {
+      id: Math.floor(Math.random()*10000000),
+      label: "new pin",
+      lat: event.latlng.lat,
+      lng: event.latlng.lng
+    })
+
+    console.log(get(pinStore.pins))
+  }
 </script>
 
 <Authentication />
 
-<Map {...mapOptions}>
+<Map {...mapOptions} {onclick}>
   <Control position="topright">
     {#if !$isAuthLoading && $isAuthenticated}
       <NavBar/>
     {/if}
   </Control>
 
-  {#each get(pinStore.pins) as pin (pin.id)}
+  {#each $pins as pin (pin.id)}
     <PinMarker {pin} />
   {/each}
 </Map>
