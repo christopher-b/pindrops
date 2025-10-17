@@ -22,9 +22,6 @@
   nav {
     background-color: #fff;
     padding: 5px;
-    position: absolute;
-    top: 10px;
-    left: 50px;
     border: 2px solid rgba(0,0,0,0.3);
     border-radius: 4px;
 
@@ -40,7 +37,7 @@
   }
 
   p {
-  margin: 0;
+    margin: 0;
   }
 </style>
 

@@ -56,8 +56,8 @@ function createPinsStore() {
 	 * Add a pin for the DID associated with the current agent/session.
 	 */
 	async function addPin(did: string, pin: Omit<Pin, 'id'>) {
-		const $agent = get(agent);
-		if (!$agent) throw new Error('Agent not available');
+		// const $agent = get(agent);
+		// if (!$agent) throw new Error('Agent not available');
 
 		try {
 			// const res = await $agent.com.atproto.repo.createRecord({
