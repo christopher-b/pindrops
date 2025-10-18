@@ -9,9 +9,6 @@
 		iconUrl: pinSvg,
 		iconSize: [35, 35]
 	})
-
-  console.log(pin)
-
 </script>
 
 <Marker lat={pin.lat} lng={pin.lng} {icon}>

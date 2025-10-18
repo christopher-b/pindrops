@@ -16,12 +16,22 @@
 
     return {
       destroy() {
-        if (marker) {
-          marker.remove();
-          marker = undefined;
-        }
-      },
-    };
+        removeMarker()
+      }
+    }
+  }
+
+  $effect(() => {
+    return () => {
+      removeMarker()
+    }
+  })
+
+  function removeMarker() {
+    if(marker) {
+      marker.remove()
+      marker = undefined
+    }
   }
 </script>
 
