@@ -2,11 +2,12 @@
 export const NSID = 'com.pindrop.pin'; // Replace with your namespace
 
 export interface Pin {
+	id: string;
 	label: string;
 	lat: number;
 	lng: number;
-	date: string; // ISO 8601 format like "2025-10-13T14:30:00.000Z"
-	createdAt: string;
+	// date: string; // ISO 8601 format like "2025-10-13T14:30:00.000Z"
+	// createdAt: string;
 }
 
 // date: new Date('2025-10-13').toISOString() // Specific date

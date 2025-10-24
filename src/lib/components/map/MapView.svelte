@@ -1,48 +1,49 @@
 <script lang="ts">
-  import { setContext } from 'svelte';
-	import { Map, TileLayer, LatLng } from 'leaflet'
-	import type { MapOptions, TileLayerOptions } from 'leaflet'
-	import 'leaflet/dist/leaflet.css'
+	// Ref: https://imfeld.dev/writing/svelte_domless_components
+	import 'leaflet/dist/leaflet.css';
+	import type { Snippet } from 'svelte';
+	import type { MapOptions, TileLayerOptions, LeafletEventHandlerFn } from 'leaflet';
+	import { setContext, onMount } from 'svelte';
+	import { Map as LeafletMap, TileLayer } from 'leaflet';
 
-  let { children, onclick, tilesUrl, centerLat, centerLng, zoom, minZoom, attribution } = $props();
-  let map: Map = $state(null)
-  const center = new LatLng(centerLat, centerLng)
-	const mapOptions: MapOptions = { center, zoom, minZoom }
-	const tileOptions: TileLayerOptions & { ext: string } = { attribution, ext: 'jpg' }
+	interface Props {
+		children: Snippet;
+		onclick?: LeafletEventHandlerFn;
+		tilesUrl: string;
+		mapOptions: MapOptions;
+		tileOptions: TileLayerOptions;
+	}
 
-	const getMap = () => map;
-	setContext('map', getMap);
+	let { children, onclick, tilesUrl, mapOptions, tileOptions }: Props = $props();
+	let el: Element;
+	let map: LeafletMap | null = $state(null);
 
-	function leafletMap(node) {
-		if(map) return
+	setContext('map', () => map);
 
-		map = new Map(node, mapOptions)
-    map.on('click', onclick)
-		new TileLayer(tilesUrl, tileOptions).addTo(map)
+	onMount(() => {
+		map = new LeafletMap(el as HTMLElement, mapOptions);
+		new TileLayer(tilesUrl, tileOptions).addTo(map);
+		if (onclick) map.on('click', onclick);
 
-    return {
-      destroy() {
-        map.remove();
-        map = undefined;
-      }
-    }
-  }
+		return () => {
+			if (map) map.remove();
+		};
+	});
 </script>
 
-<map {@attach leafletMap}>
+<map bind:this={el}>
 	{#if map}
-  	{@render children?.()}
+		{@render children?.()}
 	{/if}
 </map>
 
 <style>
-map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1000;
-}
+	map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: -1000;
+	}
 </style>
-

@@ -3,15 +3,33 @@ import { browser } from '$app/environment';
 
 let clientInstance: BrowserOAuthClient | null = null;
 
-export function getOAuthClient() {
+export async function getOAuthClient() {
 	if (!browser) return null;
+	if (!clientId) return null;
 
 	if (!clientInstance) {
-		clientInstance = new BrowserOAuthClient({
-			handleResolver: 'https://bsky.social',
-			clientMetadata: undefined
+		clientInstance = await BrowserOAuthClient.load({
+			clientId,
+			handleResolver: 'https://bsky.social'
 		});
 	}
 
 	return clientInstance;
 }
+
+function buildClientID() {
+	if (!browser) return null;
+
+	const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+	if (isLocal) {
+		// see https://atproto.com/specs/oauth#localhost-client-development
+		return `http://localhost?${new URLSearchParams({
+			// @TODO extract to schema config
+			scope: 'atproto repo:com.pindrop.pin?action=create&action=delete&action=update',
+			redirect_uri: Object.assign(new URL(window.location.origin), { hostname: '127.0.0.1' }).href
+		})}`;
+	}
+
+	return `https://${window.location.host}/oauth-client-metadata.json`;
+}
+const clientId = buildClientID();

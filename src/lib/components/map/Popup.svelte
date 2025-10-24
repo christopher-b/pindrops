@@ -1,31 +1,41 @@
-<script>
-  import { Point } from 'leaflet'
-  import { getContext } from 'svelte'
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+	import type { Marker as LeafletMarker, Popup as LeafletPopup } from 'leaflet';
+	import { getContext, setContext, onMount } from 'svelte';
+	import { Point } from 'leaflet';
 
-  let { children, open, closeButton } = $props()
-  let popup
-  const offset = new Point(0, 0)
-  const context = getContext('popupContext')()
+	interface Props {
+		children: Snippet;
+		open: boolean;
+		closeButton?: boolean;
+	}
 
-  function leafletPopup(node){
-    popup = context.bindPopup(node, {
-      offset: offset,
-      closeButton
-    })
+	let { children, open = true, closeButton = true }: Props = $props();
+	let el: HTMLElement;
+	let popup: LeafletPopup;
+	const offset = new Point(0, -7);
+	const context: LeafletMarker = getContext<() => LeafletMarker>('markerContext')();
+	setContext('popupContext', () => popup);
 
-    if(open) {
-      popup.openPopup()
-    }
+	onMount(() => {
+		context.bindPopup(el, {
+			offset: offset,
+			closeButton
+		});
+		popup = context.getPopup()!;
 
-    return {
-      destroy() {
-        context.unbindPopup();
-      },
-    }
-  }
+		if (open) {
+			context.openPopup();
+		}
+
+		return () => {
+			if (popup) {
+				popup.remove();
+			}
+		};
+	});
 </script>
 
-<popup {@attach leafletPopup}>
-  {@render children?.()}
+<popup bind:this={el}>
+	{@render children?.()}
 </popup>
-

@@ -1,14 +1,14 @@
 import { writable, get } from 'svelte/store';
 import { agent } from '$lib/stores/auth';
-import { NSID } from '$lib/atproto/schema';
+import { NSID, type Pin } from '$lib/atproto/schema';
 
-export type Pin = {
-	id: string | null;
-	lat: number;
-	lng: number;
-	label: string;
-	// date: string;
-};
+// export type Pin = {
+// 	id: string | null;
+// 	lat: number;
+// 	lng: number;
+// 	label: string;
+// 	// date: string;
+// };
 
 function createPinsStore() {
 	const pins = writable<Pin[]>([]);
@@ -33,13 +33,13 @@ function createPinsStore() {
 				collection: NSID,
 				limit: 100
 			});
+			console.log('fetch pins: ', res);
 
 			const loadedPins: Pin[] = res.data.records.map((record: any) => ({
 				id: record.uri || record.cid,
 				lat: record.value.lat,
 				lng: record.value.lng,
-				label: record.value.label,
-				date: record.value.date
+				label: record.value.label
 			}));
 
 			pins.set(loadedPins);
@@ -56,17 +56,18 @@ function createPinsStore() {
 	 * Add a pin for the DID associated with the current agent/session.
 	 */
 	async function addPin(did: string, pin: Omit<Pin, 'id'>) {
-		// const $agent = get(agent);
-		// if (!$agent) throw new Error('Agent not available');
+		const $agent = get(agent);
+		if (!$agent) throw new Error('Agent not available');
 
 		try {
-			// const res = await $agent.com.atproto.repo.createRecord({
-			// 	repo: did,
-			// 	collection: NSID,
-			// 	record: { ...pin }
-			// });
-			// const newPin: Pin = { id: res.data.uri, ...pin };
-			const newPin = { id: '123', ...pin };
+			const res = await $agent.com.atproto.repo.createRecord({
+				repo: did,
+				collection: NSID,
+				record: { ...pin }
+			});
+			if (!res.success) throw new Error(JSON.stringify(res.data));
+
+			const newPin: Pin = { id: res.data.uri, ...pin };
 			pins.update((arr) => [...arr, newPin]);
 		} catch (err) {
 			console.error('Failed to add pin:', err);
@@ -81,13 +82,19 @@ function createPinsStore() {
 		const $agent = get(agent);
 		if (!$agent) throw new Error('Agent not available');
 
+		// `id` should be a pin URI. Extract the rkey
+		const rkey = id.split('/').pop();
+		if (!rkey) throw new Error('Could not determine pin rkey');
+
 		try {
 			await $agent.com.atproto.repo.deleteRecord({
 				repo: did,
 				collection: NSID,
-				rkey: id
+				rkey
 			});
 			pins.update((arr) => arr.filter((p) => p.id !== id));
+
+			return true;
 		} catch (err) {
 			console.error('Failed to delete pin:', err);
 			error.set('Failed to delete pin');

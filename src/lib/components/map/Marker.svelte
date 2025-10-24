@@ -1,42 +1,37 @@
-<script>
-  import { getContext, setContext } from 'svelte';
-  import { Marker } from 'leaflet'
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+	import type { Map as LeafletMap, Marker as LeafletMarker, Icon } from 'leaflet';
+	import { getContext, setContext, onMount } from 'svelte';
+	import { Marker } from 'leaflet';
 
-  let { children, lat, lng, icon } = $props()
-  let marker
-  let renderChildren = $state(false)
+	interface Props {
+		children: Snippet;
+		lat: number;
+		lng: number;
+		icon: Icon;
+	}
 
-  const map = getContext('map')()
-  setContext('popupContext', () => marker)
+	let { children, lat, lng, icon }: Props = $props();
+	let el: SVGMarkerElement;
+	let marker: LeafletMarker | null = $state(null);
 
-  function leafletMarker() {
-    marker = new Marker([lat, lng], { icon })
-    marker.addTo(map)
-    renderChildren = true
+	const map: LeafletMap = getContext<() => LeafletMap>('map')();
+	setContext('markerContext', () => marker);
 
-    return {
-      destroy() {
-        removeMarker()
-      }
-    }
-  }
+	onMount(() => {
+		marker = new Marker([lat, lng], { icon });
+		marker.addTo(map);
 
-  $effect(() => {
-    return () => {
-      removeMarker()
-    }
-  })
-
-  function removeMarker() {
-    if(marker) {
-      marker.remove()
-      marker = undefined
-    }
-  }
+		return () => {
+			if (marker) {
+				marker.remove();
+			}
+		};
+	});
 </script>
 
-<marker {@attach leafletMarker}>
-  {#if renderChildren}
-    {@render children?.()}
-  {/if}
+<marker bind:this={el}>
+	{#if marker}
+		{@render children?.()}
+	{/if}
 </marker>

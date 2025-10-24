@@ -1,40 +1,44 @@
-<script context="module">
-  import { Control } from 'leaflet'
+<script lang="ts" module>
+	import { Control, type ControlPosition } from 'leaflet';
 
-  class _Control extends Control {
-    constructor(el, position) {
-      super({ position })
-      this.el = el
-    }
-    onAdd() {
-      return this.el
-    }
-    onRemove() {}
-  }
+	class _Control extends Control {
+		el: HTMLElement;
+
+		constructor(el: HTMLElement, position: ControlPosition) {
+			super({ position });
+			this.el = el;
+		}
+
+		onAdd(): HTMLElement {
+			return this.el;
+		}
+		onRemove() {}
+	}
 </script>
 
-<script>
-  import { getContext } from 'svelte'
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+	import type { Map as LeafletMap } from 'leaflet';
+	import { getContext, onMount } from 'svelte';
 
-  let { children, position } = $props()
-  let control
-  const map = getContext('map')()
+	interface Props {
+		children: Snippet;
+		position: ControlPosition;
+	}
 
-  function leafletControl(node) {
-    control = new _Control(node, position)
-    control.addTo(map)
+	let { children, position }: Props = $props();
+	let el: Element;
+	let control: _Control;
+	const map: LeafletMap = getContext<() => LeafletMap>('map')();
 
-    return {
-      destroy() {
-        control.remove()
-        control = undefined
-      },
-    }
-  }
+	onMount(() => {
+		control = new _Control(el as HTMLElement, position);
+		control.addTo(map);
+
+		return () => control.remove();
+	});
 </script>
 
-<div class="hidden">
-  <div {@attach leafletControl}>
-    {@render children?.()}
-  </div>
-</div>
+<control bind:this={el}>
+	{@render children?.()}
+</control>

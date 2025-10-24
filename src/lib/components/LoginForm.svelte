@@ -5,8 +5,8 @@
 	let isLoggingIn = false;
 	let error = '';
 
-	async function onsubmit(event) {
-    event.preventDefault();
+	async function onsubmit(event: SubmitEvent) {
+		event.preventDefault();
 
 		if (!handle) {
 			error = 'Please enter your handle';
@@ -17,7 +17,7 @@
 		error = '';
 
 		try {
-			const client = getOAuthClient();
+			const client = await getOAuthClient();
 			if (!client) throw new Error('OAuth client not available');
 
 			// Start OAuth flow
@@ -32,45 +32,42 @@
 </script>
 
 <form {onsubmit}>
-  <h2>Login</h2>
-  <label>
-    Handle
-    <input
-      type="text"
-      bind:value={handle}
-      placeholder="your-handle.bsky.social"
-      disabled={isLoggingIn}
-    />
-  </label>
+	<h2>Login</h2>
+	<label>
+		Handle
+		<input
+			type="text"
+			bind:value={handle}
+			placeholder="your-handle.bsky.social"
+			disabled={isLoggingIn}
+		/>
+	</label>
 
-  <button type="submit" disabled={isLoggingIn}>
-    {isLoggingIn ? 'Logging in...' : 'Login'}
-  </button>
+	<button type="submit" disabled={isLoggingIn} aria-busy={isLoggingIn}>
+		{isLoggingIn ? 'Logging in...' : 'Login'}
+	</button>
 
-  {#if error}
-    <p class="error">{error}</p>
-  {/if}
+	{#if error}
+		<p class="error">{error}</p>
+	{/if}
 </form>
 
 <style>
-  form {
-    padding: 1rem;
+	form {
+		padding: 1rem;
 		max-width: 400px;
 		margin: 10px auto;
-    background-color: #fff;
-    border: 2px solid rgba(0,0,0,0.3);
-    border-radius: 4px;
+		background-color: #fff;
+		border: 2px solid rgba(0, 0, 0, 0.3);
+		border-radius: 4px;
 
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 	}
 
-  h2 {
-    margin: 0;
-  }
-
-	form {
+	h2 {
+		margin: 0;
 	}
 
 	label {
