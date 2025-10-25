@@ -15,7 +15,8 @@
 	let form: HTMLFormElement;
 	const context: LeafletPopup = getContext<() => LeafletPopup>('markerContext')();
 
-	const onsubmit = async () => {
+	const onsubmit = async (event: SubmitEvent) => {
+		event.preventDefault();
 		loading = true;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
@@ -32,7 +33,7 @@
 	};
 </script>
 
-<form {onsubmit} bind:this={form}>
+<form {onsubmit} bind:this={form} method="post">
 	<label>
 		Label
 		<input type="text" name="label" bind:value={label} required />
