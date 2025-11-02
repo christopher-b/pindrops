@@ -34,6 +34,7 @@
 </script>
 
 <form {onsubmit} bind:this={form} method="post">
+	<h2>New Pin</h2>
 	<label>
 		Label
 		<input type="text" name="label" bind:value={label} required />

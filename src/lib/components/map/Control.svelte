@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { Control, type ControlPosition } from 'leaflet';
+	import { Control, DomEvent, type ControlPosition } from 'leaflet';
 
 	class _Control extends Control {
 		el: HTMLElement;
@@ -7,6 +7,7 @@
 		constructor(el: HTMLElement, position: ControlPosition) {
 			super({ position });
 			this.el = el;
+			DomEvent.disableClickPropagation(el); // ← Add this
 		}
 
 		onAdd(): HTMLElement {

@@ -44,7 +44,11 @@
 	"dependencies": {
 		"@atproto/api": "^0.17.2",
 		"@atproto/oauth-client-browser": "^0.3.33",
+		"@fontsource/inter": "^5.2.8",
+		"@internationalized/date": "^3.10.0",
+		"@picocss/pico": "^2.1.1",
 		"@sveltejs/adapter-static": "^3.0.10",
+		"bits-ui": "^2.14.1",
 		"leaflet": "^1.9.4"
 	}
 }
