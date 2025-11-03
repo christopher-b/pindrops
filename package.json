@@ -50,5 +50,6 @@
 		"@sveltejs/adapter-static": "^3.0.10",
 		"bits-ui": "^2.14.1",
 		"leaflet": "^1.9.4"
-	}
+	},
+	"packageManager": "yarn@4.10.3"
 }
