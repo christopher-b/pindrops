@@ -1,7 +1,7 @@
 {
-  "client_id": "https://yourdomain.com/client-metadata.json",
+  "client_id": "https://pindrops.pages.dev/oauth-client-metadata.json",
   "client_name": "PinDrops",
-  "redirect_uris": ["https://yourdomain.com/auth/callback"],
+  "redirect_uris": ["https://pindrops.pages.dev/"],
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
   "scope": "atproto transition:generic",
