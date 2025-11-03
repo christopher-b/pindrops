@@ -8,7 +8,6 @@
   "grant_types": ["authorization_code", "refresh_token"],
   "response_types": ["code"],
   "scope": "atproto repo:app.pindrops.pin?action=create&action=delete&action=update",
-  "token_endpoint_auth_method": "private_key_jwt",
-  "token_endpoint_auth_signing_alg": "ES256"
+  "token_endpoint_auth_method": "none"
 }
 
