@@ -25,7 +25,7 @@ function buildClientID() {
 		// see https://atproto.com/specs/oauth#localhost-client-development
 		return `http://localhost?${new URLSearchParams({
 			// @TODO extract to schema config
-			scope: 'atproto repo:com.pindrop.pin?action=create&action=delete&action=update',
+			scope: 'atproto repo:app.pindrops.pin?action=create&action=delete&action=update',
 			redirect_uri: Object.assign(new URL(window.location.origin), { hostname: '127.0.0.1' }).href
 		})}`;
 	}
