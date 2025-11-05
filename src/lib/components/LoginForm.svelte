@@ -31,10 +31,16 @@
 	}
 </script>
 
-<form {onsubmit}>
+<form {onsubmit} class="card">
+	<h1>PinDrops</h1>
+	<p>
+		PinDrops is an ATProto-powered collection of location pins. Use it to record places you've been,
+		places you would like to go, or whatever you like.
+	</p>
+	<p>PinDrops was built to explore building applications with ATProto.</p>
 	<h2>Login</h2>
 	<label>
-		Handle
+		Your handle
 		<input
 			type="text"
 			bind:value={handle}
@@ -57,13 +63,10 @@
 		padding: 1rem;
 		max-width: 400px;
 		margin: 10px auto;
-		background-color: #fff;
-		border: 2px solid rgba(0, 0, 0, 0.3);
-		border-radius: 4px;
 
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+		/* display: flex; */
+		/* flex-direction: column; */
+		/* gap: 1rem; */
 	}
 
 	h2 {

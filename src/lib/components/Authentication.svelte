@@ -11,6 +11,7 @@
 {#if $isAuthLoading}
 	<div class="center">
 		<Loading />
+		<p>Loading</p>
 	</div>
 {:else if $authError}
 	<p class="error">{$authError}</p>
@@ -24,7 +25,13 @@
 		font-weight: 500;
 	}
 	.center {
-		margin: auto 0;
-		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		p {
+			margin: 0;
+		}
 	}
 </style>
