@@ -7,7 +7,7 @@
 	import Popup from '$lib/components/map/Popup.svelte';
 	import Tooltip from '$lib/components/map/Tooltip.svelte';
 
-	let { pin } = $props();
+	let { pin, readonly = false } = $props();
 	let loading = $state(false);
 	let editing = $state(false);
 	let editLabel = $state(pin.label);
@@ -65,45 +65,56 @@
 	<Tooltip>
 		<span class="tooltip-label">{pin.label}</span>
 	</Tooltip>
-	<Popup open={false}>
-		<div class="pin-popup">
-			{#if editing}
-				<input
-					type="text"
-					class="edit-input"
-					bind:value={editLabel}
-					onkeydown={onKeydown}
-					disabled={loading}
-				/>
-				<div class="btn-row">
-					<button onclick={onSaveEdit} class="btn-save" disabled={loading || !editLabel.trim()}>
-						{#if loading}
-							Saving...
-						{:else}
-							Save
-						{/if}
-					</button>
-					<button onclick={onCancelEdit} class="btn-cancel" disabled={loading}>
-						Cancel
-					</button>
-				</div>
-			{:else}
+	{#if readonly}
+		<Popup open={false}>
+			<div class="pin-popup">
 				<span class="pin-label">{pin.label}</span>
-				<div class="btn-row">
-					<button onclick={onStartEdit} class="btn-edit" disabled={loading}>
-						Edit
-					</button>
-					<button onclick={ondelete} class="btn-delete" disabled={loading}>
-						{#if loading}
-							Deleting...
-						{:else}
-							Delete
-						{/if}
-					</button>
-				</div>
-			{/if}
-		</div>
-	</Popup>
+				{#if pin.date}
+					<span class="pin-date">{new Date(pin.date).toLocaleDateString()}</span>
+				{/if}
+			</div>
+		</Popup>
+	{:else}
+		<Popup open={false}>
+			<div class="pin-popup">
+				{#if editing}
+					<input
+						type="text"
+						class="edit-input"
+						bind:value={editLabel}
+						onkeydown={onKeydown}
+						disabled={loading}
+					/>
+					<div class="btn-row">
+						<button onclick={onSaveEdit} class="btn-save" disabled={loading || !editLabel.trim()}>
+							{#if loading}
+								Saving...
+							{:else}
+								Save
+							{/if}
+						</button>
+						<button onclick={onCancelEdit} class="btn-cancel" disabled={loading}>
+							Cancel
+						</button>
+					</div>
+				{:else}
+					<span class="pin-label">{pin.label}</span>
+					<div class="btn-row">
+						<button onclick={onStartEdit} class="btn-edit" disabled={loading}>
+							Edit
+						</button>
+						<button onclick={ondelete} class="btn-delete" disabled={loading}>
+							{#if loading}
+								Deleting...
+							{:else}
+								Delete
+							{/if}
+						</button>
+					</div>
+				{/if}
+			</div>
+		</Popup>
+	{/if}
 </Marker>
 
 <style>
@@ -124,6 +135,11 @@
 		font-weight: 500;
 		font-size: var(--font-sm);
 		color: var(--color-text);
+	}
+
+	.pin-date {
+		font-size: var(--font-xs);
+		color: var(--color-text-muted);
 	}
 
 	.edit-input {
