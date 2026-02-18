@@ -24,15 +24,28 @@
 	$effect(() => {
 		if (!map) return;
 
+		let justClosedPopup = false;
+
+		const handlePopupClose = () => {
+			justClosedPopup = true;
+			// Reset after a tick so only the immediately following click is suppressed
+			setTimeout(() => {
+				justClosedPopup = false;
+			}, 0);
+		};
+
 		const handleClick = (event: LeafletMouseEvent) => {
+			if (justClosedPopup) return;
 			showSelf = !showSelf;
 			lat = event.latlng.lat;
 			lng = event.latlng.lng;
 		};
 
+		map.on('popupclose', handlePopupClose);
 		map.on('click', handleClick);
 
 		return () => {
+			map.off('popupclose', handlePopupClose);
 			map.off('click', handleClick);
 		};
 	});
