@@ -35,6 +35,10 @@
 			viewHandle = '';
 		}
 	}
+
+	function autofocus(node: HTMLInputElement) {
+		requestAnimationFrame(() => node.focus());
+	}
 </script>
 
 <nav>
@@ -76,6 +80,7 @@
 					class="view-input"
 					bind:value={viewHandle}
 					onkeydown={onViewKeydown}
+					use:autofocus
 					placeholder="user.bsky.social"
 				/>
 				<button type="submit" class="btn-go" disabled={!viewHandle.trim()}>Go</button>

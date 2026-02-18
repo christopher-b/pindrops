@@ -44,9 +44,16 @@
 		map.on('popupclose', handlePopupClose);
 		map.on('click', handleClick);
 
+		const handlePopupOpen = () => {
+			const input = map.getContainer().querySelector<HTMLInputElement>(".popup-form input[name=label]");
+			input?.focus();
+		};
+		map.on("popupopen", handlePopupOpen);
+
 		return () => {
 			map.off('popupclose', handlePopupClose);
 			map.off('click', handleClick);
+			map.off('popupopen', handlePopupOpen);
 		};
 	});
 
@@ -68,6 +75,7 @@
 		}
 		loading = false;
 	};
+
 </script>
 
 {#if showSelf}
