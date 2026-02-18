@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		isLoading as isAuthLoading,
 		init as authInit,
@@ -17,9 +18,7 @@
 
 	const pins = pinStore.pins;
 
-	$effect(() => {
-		authInit();
-	});
+	onMount(authInit);
 
 	$effect(() => {
 		if ($isAuthenticated && $did) {

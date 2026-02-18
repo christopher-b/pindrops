@@ -10,6 +10,13 @@ import { schemas } from './lexicons.js'
 import { CID } from 'multiformats/cid'
 import { type OmitKey, type Un$Typed } from './util.js'
 import * as AppPindropPin from './types/app/pindrop/pin.js'
+import type {
+  ComAtprotoRepoListRecords,
+  ComAtprotoRepoGetRecord,
+  ComAtprotoRepoCreateRecord,
+  ComAtprotoRepoPutRecord,
+  ComAtprotoRepoDeleteRecord,
+} from '@atproto/api'
 
 export * as AppPindropPin from './types/app/pindrop/pin.js'
 

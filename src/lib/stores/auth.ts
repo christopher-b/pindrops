@@ -11,7 +11,7 @@ export const handle = writable('');
 
 export const session = writable<OAuthSession | null>(null);
 
-export const agent = writable<Agent>(undefined);
+export const agent = writable<Agent | null>(null);
 
 export const isAuthenticated = derived(session, ($session) => {
 	return $session !== null;

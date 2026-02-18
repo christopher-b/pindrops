@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {
 		isLoading as isAuthLoading,
 		error as authError,
@@ -10,24 +10,40 @@
 
 {#if $isAuthLoading}
 	<div class="center">
-		<Loading />
-		<p>Loading</p>
+		<Loading size="56px" />
+		<p>Connecting...</p>
 	</div>
 {:else if $authError}
-	<p class="text-error">{$authError}</p>
+	<div class="center">
+		<p class="text-error">{$authError}</p>
+	</div>
 {:else if !$isAuthenticated}
-	<LoginForm />
+	<div class="auth-form">
+		<LoginForm />
+	</div>
 {/if}
 
 <style>
+	.center,
+	.auth-form {
+		position: relative;
+		z-index: 10;
+	}
+
 	.center {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
+		gap: var(--s-1);
+
 		p {
 			margin: 0;
+			font-size: var(--font-sm);
+			color: var(--color-text-muted);
+			font-weight: 500;
+			letter-spacing: 0.02em;
 		}
 	}
 </style>

@@ -612,12 +612,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@internationalized/date@npm:^3.10.0":
-  version: 3.10.0
-  resolution: "@internationalized/date@npm:3.10.0"
+"@internationalized/date@npm:^3.11.0":
+  version: 3.11.0
+  resolution: "@internationalized/date@npm:3.11.0"
   dependencies:
     "@swc/helpers": "npm:^0.5.0"
-  checksum: 10c0/29634148f0d9232e65402a5c6a4194ecf7c375e89e687f71dd084d30315c9d544e2202de2ec26e199432c620da41a15cc473479f80897e08566e274e402f898e
+  checksum: 10c0/05dfa06806cb0c58c51a99ae3ccae2eebeafb645f8d55f2956b448db21996b9eef61c3da0f8b2256e76cd457bfd0efd1ef62f987e547d75611c2fb6ae3dd2bef
   languageName: node
   linkType: hard
 
@@ -734,13 +734,6 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 10c0/c90935d5ce670c87b6b14fab04a965a3b8137e585f8b2a6257263bd7f97756dd736cb165bb470e5156a9e718ecd99413dccc54b1138c1a46d6ec7cf325982fe5
-  languageName: node
-  linkType: hard
-
-"@picocss/pico@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@picocss/pico@npm:2.1.1"
-  checksum: 10c0/7a088119538765937abd8effcfb348ea4a768101c21c4e139c28f28019dd3a47478ea0ddbff5bc1d76f10c50c98741f73f6e27ad52b1abd50a27f3840f2d330a
   languageName: node
   linkType: hard
 
@@ -1007,11 +1000,11 @@ __metadata:
   linkType: hard
 
 "@swc/helpers@npm:^0.5.0":
-  version: 0.5.17
-  resolution: "@swc/helpers@npm:0.5.17"
+  version: 0.5.18
+  resolution: "@swc/helpers@npm:0.5.18"
   dependencies:
     tslib: "npm:^2.8.0"
-  checksum: 10c0/fe1f33ebb968558c5a0c595e54f2e479e4609bff844f9ca9a2d1ffd8dd8504c26f862a11b031f48f75c95b0381c2966c3dd156e25942f90089badd24341e7dbb
+  checksum: 10c0/cb32d72e32f775c30287bffbcf61c89ea3a963608cb3a4a675a3f9af545b8b3ab0bc9930432a5520a7307daaa87538158e253584ae1cf39f3e7e6e83408a2d51
   languageName: node
   linkType: hard
 
@@ -1089,7 +1082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:*, @types/geojson@npm:^7946.0.16":
+"@types/geojson@npm:*":
   version: 7946.0.16
   resolution: "@types/geojson@npm:7946.0.16"
   checksum: 10c0/1ff24a288bd5860b766b073ead337d31d73bdc715e5b50a2cee5cb0af57a1ed02cc04ef295f5fa68dc40fe3e4f104dd31282b2b818a5ba3231bc1001ba084e3c
@@ -2972,13 +2965,11 @@ __metadata:
     "@eslint/compat": "npm:^1.4.0"
     "@eslint/js": "npm:^9.36.0"
     "@fontsource/inter": "npm:^5.2.8"
-    "@internationalized/date": "npm:^3.10.0"
-    "@picocss/pico": "npm:^2.1.1"
+    "@internationalized/date": "npm:^3.11.0"
     "@sveltejs/adapter-auto": "npm:^6.1.0"
     "@sveltejs/adapter-static": "npm:^3.0.10"
     "@sveltejs/kit": "npm:^2.43.2"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.0"
-    "@types/geojson": "npm:^7946.0.16"
     "@types/leaflet": "npm:^1.9.21"
     "@types/node": "npm:^22"
     "@vitest/browser": "npm:^3.2.4"

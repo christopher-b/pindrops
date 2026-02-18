@@ -58,4 +58,18 @@
 	--color-accent-dark: #222f27;
 
 	--color-border: var(--color-neutral-300);
+	--color-text: var(--color-neutral-900);
+	--color-text-muted: var(--color-neutral-500);
+	--color-error: #c62828;
+
+	/* Surfaces */
+	--surface-bg: oklch(1 0 0 / 72%);
+	--surface-border: oklch(86.9% 0.005 56.366 / 60%);
+	--surface-shadow: 0 4px 24px oklch(0.3 0.02 60 / 8%), 0 1px 3px oklch(0.5 0.02 60 / 6%);
+	--surface-radius: 12px;
+	--surface-blur: 16px;
+
+	/* Buttons */
+	--btn-radius: 8px;
+	--btn-transition: all 0.2s ease;
 }
