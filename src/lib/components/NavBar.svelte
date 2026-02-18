@@ -17,7 +17,7 @@
 		<Menubar.Root>
 			<Menubar.Menu>
 				<Menubar.Trigger>
-					<img src={pinAreaSvg} alt="Pin Icon" />
+					<img src={pinAreaSvg} alt="Menu" />
 				</Menubar.Trigger>
 				<Menubar.Content class="menu-content" align="end" sideOffset={11} alignOffset={-5}>
 					<Menubar.Group>
@@ -29,10 +29,6 @@
 								<em>Loading...</em>
 							{/if}
 						</Menubar.Item>
-						<!-- <Menubar.Item> -->
-						<!-- 	<QuestionSvg /> -->
-						<!-- 	What is this? -->
-						<!-- </Menubar.Item> -->
 						<Menubar.Item>
 							<SignoutSvg />
 							<button {onclick} class="label"> Logout </button>
@@ -45,67 +41,77 @@
 </nav>
 
 <style>
-	/* Navbar container */
 	:global([data-menubar-root]) {
 		display: flex;
 		flex-direction: row;
-		gap: 0.5rem;
+		gap: var(--s-2);
 	}
+
 	:global([data-menubar-trigger]) {
-		background-color: inherit;
+		background-color: transparent;
 		cursor: pointer;
 		border: none;
-		padding: 0;
+		padding: 2px;
+		border-radius: 6px;
+		transition: var(--btn-transition);
+		display: flex;
+		align-items: center;
 	}
+
+	:global([data-menubar-trigger]:hover) {
+		background-color: oklch(0.9 0.01 60 / 50%);
+	}
+
 	:global([data-menubar-content]) {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 4px;
 		z-index: 50;
 	}
 
-	/* Replicate card styles for the dropdown content since we can't easily wrap it */
 	:global(.menu-content) {
-		background-color: oklch(1 0 0 / 80%);
-		color: oklch(0.482 0.0275 277.42);
-		border-radius: 10px;
-		border: 2px solid oklch(86.9% 0.005 56.366);
-		box-shadow: 0 1px 2px oklch(0.9132 0.0224 87.15);
-		padding-block: 6px;
-		padding-inline: 4px;
+		background-color: var(--surface-bg);
+		backdrop-filter: blur(var(--surface-blur));
+		-webkit-backdrop-filter: blur(var(--surface-blur));
+		color: var(--color-text);
+		border-radius: var(--surface-radius);
+		border: 1.5px solid var(--surface-border);
+		box-shadow: var(--surface-shadow);
+		padding-block: var(--s-3);
+		padding-inline: var(--s-3);
 		width: fit-content;
+		min-width: 180px;
 	}
 
 	:global([data-menubar-item]) {
 		display: flex;
 		align-items: center;
-		gap: 7px;
-		padding: 4px 7px;
-		border-radius: 3px;
+		gap: var(--s-2);
+		padding: var(--s-3) var(--s-2);
+		border-radius: 6px;
 		line-height: 20px;
-		font-weight: 600;
+		font-weight: 500;
+		font-size: var(--font-sm);
 		cursor: default;
-		transition: all 0.3s ease-out;
+		transition: var(--btn-transition);
 
 		&:not([data-disabled]) {
 			cursor: pointer;
 			&:hover {
-				background-color: oklch(92.3% 0.003 48.717);
+				background-color: oklch(0.9 0.02 155 / 30%);
 			}
 		}
 
-		/* svg {
-			width: 20px;
-			height: 20px;
-			transition: all 0.3s ease-out;
-		} */
+		&[data-disabled] {
+			opacity: 0.7;
+		}
 
 		button {
-			background-color: inherit;
+			background-color: transparent;
 			color: inherit;
 			padding: 0;
 			border: 0;
-			font-weight: 600;
+			font-weight: 500;
 			cursor: pointer;
 		}
 	}

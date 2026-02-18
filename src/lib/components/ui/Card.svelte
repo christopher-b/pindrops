@@ -17,13 +17,15 @@
 
 <style>
 	.card {
-		background-color: oklch(1 0 0 / 80%);
-		color: oklch(0.482 0.0275 277.42);
-		border-radius: 10px;
-		border: 2px solid oklch(86.9% 0.005 56.366);
-		box-shadow: 0 1px 2px oklch(0.9132 0.0224 87.15);
-		padding-block: 6px;
-		padding-inline: 4px;
+		background-color: var(--surface-bg);
+		backdrop-filter: blur(var(--surface-blur));
+		-webkit-backdrop-filter: blur(var(--surface-blur));
+		color: var(--color-text);
+		border-radius: var(--surface-radius);
+		border: 1.5px solid var(--surface-border);
+		box-shadow: var(--surface-shadow);
+		padding-block: var(--s-2);
+		padding-inline: var(--s-1);
 		margin: 0;
 		width: fit-content;
 	}

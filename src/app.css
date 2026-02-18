@@ -3,12 +3,62 @@
 @import 'css/type.css';
 
 body {
-	/* color: oklch(0.5 0 0); */
-	color: oklch(0.3746 0.0062 75.41);
+	color: var(--color-text);
 }
 
+/* Global focus-visible styles for keyboard accessibility */
+:focus-visible {
+	outline: 2px solid var(--color-accent-med-light);
+	outline-offset: 2px;
+}
 
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* Error text utility */
 .text-error {
-	color: #d32f2f;
+	color: var(--color-error);
 	font-weight: 500;
+	font-size: var(--font-sm);
+}
+
+/* Leaflet popup overrides for consistent styling */
+.leaflet-popup-content-wrapper {
+	background: var(--surface-bg) !important;
+	backdrop-filter: blur(var(--surface-blur));
+	-webkit-backdrop-filter: blur(var(--surface-blur));
+	border-radius: var(--surface-radius) !important;
+	border: 1.5px solid var(--surface-border);
+	box-shadow: var(--surface-shadow) !important;
+	color: var(--color-text) !important;
+}
+
+.leaflet-popup-content {
+	margin: var(--s-1) var(--s0) !important;
+	font-family: var(--font-body) !important;
+	font-size: var(--font-sm) !important;
+	line-height: 1.5 !important;
+}
+
+.leaflet-popup-tip {
+	background: var(--surface-bg) !important;
+	border: 1px solid var(--surface-border);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+	color: var(--color-text-muted) !important;
+	font-size: 20px !important;
+	padding: 6px 8px 0 0 !important;
+	transition: var(--btn-transition);
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+	color: var(--color-text) !important;
+}
+
+/* Selection color */
+::selection {
+	background: oklch(0.65 0.12 155 / 25%);
 }

@@ -737,13 +737,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@picocss/pico@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@picocss/pico@npm:2.1.1"
-  checksum: 10c0/7a088119538765937abd8effcfb348ea4a768101c21c4e139c28f28019dd3a47478ea0ddbff5bc1d76f10c50c98741f73f6e27ad52b1abd50a27f3840f2d330a
-  languageName: node
-  linkType: hard
-
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -2973,7 +2966,6 @@ __metadata:
     "@eslint/js": "npm:^9.36.0"
     "@fontsource/inter": "npm:^5.2.8"
     "@internationalized/date": "npm:^3.10.0"
-    "@picocss/pico": "npm:^2.1.1"
     "@sveltejs/adapter-auto": "npm:^6.1.0"
     "@sveltejs/adapter-static": "npm:^3.0.10"
     "@sveltejs/kit": "npm:^2.43.2"
