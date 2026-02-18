@@ -14,16 +14,12 @@
 		<p>Loading</p>
 	</div>
 {:else if $authError}
-	<p class="error">{$authError}</p>
+	<p class="text-error">{$authError}</p>
 {:else if !$isAuthenticated}
 	<LoginForm />
 {/if}
 
 <style>
-	.error {
-		color: #d32f2f;
-		font-weight: 500;
-	}
 	.center {
 		display: flex;
 		flex-direction: column;

@@ -1,15 +1,9 @@
 <script lang="ts">
-	import type {
-		Map as LeafletMap,
-		Popup as LeafletPopup,
-		Icon as LeafletIcon,
-		LeafletMouseEvent
-	} from 'leaflet';
+	import type { Map as LeafletMap, Icon as LeafletIcon, LeafletMouseEvent } from 'leaflet';
 	import { Icon } from 'leaflet';
 	import { getContext } from 'svelte';
 	import Marker from '$lib/components/map/Marker.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
-	// import PinForm from '$lib/components/PinForm.svelte';
 	import { did } from '$lib/stores/auth.ts';
 	import { pinStore } from '$lib/stores/pins.ts';
 	import pinSvg from '$lib/assets/pin.svg';
@@ -66,7 +60,6 @@
 {#if showSelf}
 	<Marker {icon} {lat} {lng}>
 		<Popup open={true} closeButton={false}>
-			<!-- <PinForm lat={String(lat)} lng={String(lng)} {onFormSubmit} /> -->
 			<form {onsubmit} bind:this={form} method="post">
 				<h2>New Pin</h2>
 				<label>

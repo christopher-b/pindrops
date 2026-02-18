@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getOAuthClient } from '$lib/atproto/client';
+	import Card from '$lib/components/ui/Card.svelte';
 
 	let handle = '';
 	let isLoggingIn = false;
@@ -31,7 +32,7 @@
 	}
 </script>
 
-<form {onsubmit} class="card">
+<Card as="form" {onsubmit}>
 	<h1>PinDrops</h1>
 	<p>
 		PinDrops is an ATProto-powered collection of location pins. Use it to record places you've been,
@@ -54,19 +55,15 @@
 	</button>
 
 	{#if error}
-		<p class="error">{error}</p>
+		<p class="text-error">{error}</p>
 	{/if}
-</form>
+</Card>
 
 <style>
-	form {
+	:global(form) {
 		padding: 1rem;
 		max-width: 400px;
 		margin: 10px auto;
-
-		/* display: flex; */
-		/* flex-direction: column; */
-		/* gap: 1rem; */
 	}
 
 	h2 {
@@ -97,9 +94,5 @@
 	button:disabled {
 		background: #ccc;
 		cursor: not-allowed;
-	}
-
-	.error {
-		color: red;
 	}
 </style>
