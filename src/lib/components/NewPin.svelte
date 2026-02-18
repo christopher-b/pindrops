@@ -44,18 +44,15 @@
 		map.on('popupclose', handlePopupClose);
 		map.on('click', handleClick);
 
-		const handlePopupOpen = () => {
-			const input = map.getContainer().querySelector<HTMLInputElement>(".popup-form input[name=label]");
-			input?.focus();
-		};
-		map.on("popupopen", handlePopupOpen);
-
 		return () => {
 			map.off('popupclose', handlePopupClose);
 			map.off('click', handleClick);
-			map.off('popupopen', handlePopupOpen);
 		};
 	});
+
+	const handlePopupOpen = (el: HTMLElement) => {
+		el.querySelector<HTMLInputElement>('input[name=label]')?.focus();
+	};
 
 	const onsubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
@@ -80,7 +77,7 @@
 
 {#if showSelf}
 	<Marker {icon} {lat} {lng}>
-		<Popup open={true} closeButton={false}>
+		<Popup open={true} closeButton={false} onopen={handlePopupOpen}>
 			<form {onsubmit} bind:this={form} method="post" class="popup-form">
 				<h2>New Pin</h2>
 				<label>
