@@ -45,7 +45,8 @@
 		const pin: Omit<Pin, 'id'> = {
 			lat: Number(data.lat),
 			lng: Number(data.lng),
-			label: data.label as string
+			label: data.label as string,
+			date: new Date().toISOString()
 		};
 		if ($did) {
 			await pinStore.addPin($did, pin);
