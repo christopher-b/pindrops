@@ -1,29 +1,21 @@
 <script lang="ts">
-	import type { Map as LeafletMap, Icon as LeafletIcon, LeafletMouseEvent } from 'leaflet';
-	import { Icon } from 'leaflet';
-	import { getContext } from 'svelte';
+	import type { Map as LeafletMap, LeafletMouseEvent } from 'leaflet';
+	import { getContext, onMount } from 'svelte';
 	import Marker from '$lib/components/map/Marker.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
 	import { did } from '$lib/stores/auth.ts';
 	import { pinStore } from '$lib/stores/pins.ts';
-	import pinSvg from '$lib/assets/pin.svg';
+	import { pinIcon } from '$lib/pinIcon';
 	import type { Pin } from '$lib/atproto/schema';
 
 	const map: LeafletMap = getContext<() => LeafletMap>('map')();
-	const icon: LeafletIcon = new Icon({
-		iconUrl: pinSvg,
-		iconSize: [35, 35]
-	});
 	let showSelf = $state(false);
 	let loading = $state(false);
 	let lat = $state(0);
 	let lng = $state(0);
 	let label = $state('');
-	let form: HTMLFormElement = $state() as HTMLFormElement;
 
-	$effect(() => {
-		if (!map) return;
-
+	onMount(() => {
 		let justClosedPopup = false;
 
 		const handlePopupClose = () => {
@@ -54,12 +46,10 @@
 	const onsubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
 		loading = true;
-		const formData = new FormData(form);
-		const data = Object.fromEntries(formData.entries());
 		const pin: Omit<Pin, 'id'> = {
-			lat: Number(data.lat),
-			lng: Number(data.lng),
-			label: data.label as string,
+			lat,
+			lng,
+			label,
 			date: new Date().toISOString()
 		};
 		if ($did) {
@@ -72,16 +62,14 @@
 </script>
 
 {#if showSelf}
-	<Marker {icon} {lat} {lng}>
+	<Marker icon={pinIcon} {lat} {lng}>
 		<Popup open={true} closeButton={false}>
-			<form {onsubmit} bind:this={form} method="post" class="popup-form">
+			<form {onsubmit} class="popup-form">
 				<h2>New Pin</h2>
 				<label>
 					<span class="label-text">Label</span>
 					<input type="text" name="label" bind:value={label} required placeholder="Name this place..." />
 				</label>
-				<input type="hidden" name="lat" bind:value={lat} />
-				<input type="hidden" name="lng" bind:value={lng} />
 				<button type="submit" class="btn-primary" disabled={loading}>
 					{#if loading}
 						Adding...

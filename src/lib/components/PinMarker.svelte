@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { Icon } from 'leaflet';
-	import pinSvg from '$lib/assets/pin.svg';
+	import { pinIcon } from '$lib/pinIcon';
 	import { pinStore } from '$lib/stores/pins.ts';
 	import { did } from '$lib/stores/auth.ts';
 	import Marker from '$lib/components/map/Marker.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
 	import Tooltip from '$lib/components/map/Tooltip.svelte';
+	import type { Pin } from '$lib/atproto/schema';
 
-	let { pin, readonly = false } = $props();
+	interface Props {
+		pin: Pin;
+		readonly?: boolean;
+	}
+
+	let { pin, readonly = false }: Props = $props();
 	let loading = $state(false);
 	let editing = $state(false);
 	let editLabel = $state(pin.label);
-	const icon = new Icon({
-		iconUrl: pinSvg,
-		iconSize: [35, 35]
-	});
-
 	const ondelete = async () => {
 		if (!$did) return;
 
@@ -61,7 +61,7 @@
 	};
 </script>
 
-<Marker lat={pin.lat} lng={pin.lng} {icon}>
+<Marker lat={pin.lat} lng={pin.lng} icon={pinIcon}>
 	<Tooltip>
 		<span class="tooltip-label">{pin.label}</span>
 	</Tooltip>
