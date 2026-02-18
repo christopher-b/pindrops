@@ -58,9 +58,9 @@
 							<QuestionSvg />
 							<span class="label">View User</span>
 						</Menubar.Item>
-						<Menubar.Item>
+						<Menubar.Item onSelect={onclick}>
 							<SignoutSvg />
-							<button {onclick} class="label"> Logout </button>
+							<span class="label">Logout</span>
 						</Menubar.Item>
 					</Menubar.Group>
 				</Menubar.Content>
@@ -155,15 +155,6 @@
 
 		&[data-disabled] {
 			opacity: 0.7;
-		}
-
-		button {
-			background-color: transparent;
-			color: inherit;
-			padding: 0;
-			border: 0;
-			font-weight: 500;
-			cursor: pointer;
 		}
 	}
 

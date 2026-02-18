@@ -23,9 +23,7 @@
 			if (!client) throw new Error('OAuth client not available');
 
 			// Start OAuth flow
-			await client.signIn(handle, {
-				signal: new AbortController().signal
-			});
+			await client.signIn(handle);
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Login failed';
 			isLoggingIn = false;
