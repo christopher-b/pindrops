@@ -19,7 +19,7 @@
 	let lat = $state(0);
 	let lng = $state(0);
 	let label = $state('');
-	let form: HTMLFormElement = $state() as HTMLFormElement;
+	let form: HTMLFormElement;
 
 	$effect(() => {
 		if (!map) return;
@@ -50,10 +50,6 @@
 		};
 	});
 
-	const handlePopupOpen = (el: HTMLElement) => {
-		el.querySelector<HTMLInputElement>('input[name=label]')?.focus();
-	};
-
 	const onsubmit = async (event: SubmitEvent) => {
 		event.preventDefault();
 		loading = true;
@@ -72,12 +68,11 @@
 		}
 		loading = false;
 	};
-
 </script>
 
 {#if showSelf}
 	<Marker {icon} {lat} {lng}>
-		<Popup open={true} closeButton={false} onopen={handlePopupOpen}>
+		<Popup open={true} closeButton={false}>
 			<form {onsubmit} bind:this={form} method="post" class="popup-form">
 				<h2>New Pin</h2>
 				<label>

@@ -8,10 +8,9 @@
 		children: Snippet;
 		open: boolean;
 		closeButton?: boolean;
-		onopen?: (el: HTMLElement) => void;
 	}
 
-	let { children, open = true, closeButton = true, onopen }: Props = $props();
+	let { children, open = true, closeButton = true }: Props = $props();
 	let el: HTMLElement;
 	let popup: LeafletPopup;
 	const offset = new Point(0, -7);
@@ -27,9 +26,6 @@
 
 		if (open) {
 			context.openPopup();
-			if (onopen) {
-				requestAnimationFrame(() => onopen(el));
-			}
 		}
 
 		return () => {
