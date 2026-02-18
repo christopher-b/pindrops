@@ -4,6 +4,8 @@
 	let { children } = $props();
 </script>
 
-<svelte:head></svelte:head>
+<svelte:head>
+	<title>PinDrops</title>
+</svelte:head>
 
 {@render children?.()}
