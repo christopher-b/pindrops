@@ -28,6 +28,7 @@
 
 		const handlePopupClose = () => {
 			justClosedPopup = true;
+			showSelf = false;
 			// Reset after a tick so only the immediately following click is suppressed
 			setTimeout(() => {
 				justClosedPopup = false;
