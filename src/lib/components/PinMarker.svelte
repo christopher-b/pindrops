@@ -5,6 +5,7 @@
 	import { did } from '$lib/stores/auth.ts';
 	import Marker from '$lib/components/map/Marker.svelte';
 	import Popup from '$lib/components/map/Popup.svelte';
+	import Tooltip from '$lib/components/map/Tooltip.svelte';
 
 	let { pin } = $props();
 	let loading = $state(false);
@@ -61,6 +62,9 @@
 </script>
 
 <Marker lat={pin.lat} lng={pin.lng} {icon}>
+	<Tooltip>
+		<span class="tooltip-label">{pin.label}</span>
+	</Tooltip>
 	<Popup open={false}>
 		<div class="pin-popup">
 			{#if editing}
@@ -103,6 +107,12 @@
 </Marker>
 
 <style>
+	.tooltip-label {
+		font-weight: 500;
+		font-size: var(--font-xs);
+		color: var(--color-text);
+	}
+
 	.pin-popup {
 		display: flex;
 		flex-direction: column;

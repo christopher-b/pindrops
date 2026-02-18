@@ -58,6 +58,24 @@ body {
 	color: var(--color-text) !important;
 }
 
+/* Leaflet tooltip overrides for consistent styling */
+.leaflet-tooltip.pin-tooltip {
+	background: var(--surface-bg) !important;
+	backdrop-filter: blur(var(--surface-blur));
+	-webkit-backdrop-filter: blur(var(--surface-blur));
+	border-radius: var(--btn-radius) !important;
+	border: 1.5px solid var(--surface-border) !important;
+	box-shadow: var(--surface-shadow) !important;
+	color: var(--color-text) !important;
+	font-family: var(--font-body) !important;
+	font-size: var(--font-xs) !important;
+	padding: var(--s-4) var(--s-3) !important;
+}
+
+.leaflet-tooltip.pin-tooltip::before {
+	border-top-color: var(--surface-border) !important;
+}
+
 /* Selection color */
 ::selection {
 	background: oklch(0.65 0.12 155 / 25%);
