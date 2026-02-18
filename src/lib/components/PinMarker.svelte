@@ -8,33 +8,96 @@
 
 	let { pin } = $props();
 	let loading = $state(false);
+	let editing = $state(false);
+	let editLabel = $state(pin.label);
 	const icon = new Icon({
 		iconUrl: pinSvg,
 		iconSize: [35, 35]
 	});
 
-	const onclick = async () => {
+	const ondelete = async () => {
 		if (!$did) return;
 
 		loading = true;
 		await pinStore.removePin($did, pin.id);
 		loading = false;
 	};
+
+	const onStartEdit = () => {
+		editLabel = pin.label;
+		editing = true;
+	};
+
+	const onCancelEdit = () => {
+		editLabel = pin.label;
+		editing = false;
+	};
+
+	const onSaveEdit = async () => {
+		if (!$did) return;
+		const trimmed = editLabel.trim();
+		if (!trimmed || trimmed === pin.label) {
+			editing = false;
+			return;
+		}
+
+		loading = true;
+		const success = await pinStore.updatePin($did, pin.id, { label: trimmed });
+		loading = false;
+
+		if (success) {
+			editing = false;
+		}
+	};
+
+	const onKeydown = (e: KeyboardEvent) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			onSaveEdit();
+		} else if (e.key === 'Escape') {
+			onCancelEdit();
+		}
+	};
 </script>
 
 <Marker lat={pin.lat} lng={pin.lng} {icon}>
 	<Popup open={false}>
 		<div class="pin-popup">
-			<span class="pin-label">{pin.label}</span>
-			<form>
-				<button {onclick} class="btn-delete" disabled={loading}>
-					{#if loading}
-						Deleting...
-					{:else}
-						Delete Pin
-					{/if}
-				</button>
-			</form>
+			{#if editing}
+				<input
+					type="text"
+					class="edit-input"
+					bind:value={editLabel}
+					onkeydown={onKeydown}
+					disabled={loading}
+				/>
+				<div class="btn-row">
+					<button onclick={onSaveEdit} class="btn-save" disabled={loading || !editLabel.trim()}>
+						{#if loading}
+							Saving...
+						{:else}
+							Save
+						{/if}
+					</button>
+					<button onclick={onCancelEdit} class="btn-cancel" disabled={loading}>
+						Cancel
+					</button>
+				</div>
+			{:else}
+				<span class="pin-label">{pin.label}</span>
+				<div class="btn-row">
+					<button onclick={onStartEdit} class="btn-edit" disabled={loading}>
+						Edit
+					</button>
+					<button onclick={ondelete} class="btn-delete" disabled={loading}>
+						{#if loading}
+							Deleting...
+						{:else}
+							Delete
+						{/if}
+					</button>
+				</div>
+			{/if}
 		</div>
 	</Popup>
 </Marker>
@@ -44,7 +107,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--s-3);
-		min-width: 140px;
+		min-width: 160px;
 	}
 
 	.pin-label {
@@ -53,12 +116,37 @@
 		color: var(--color-text);
 	}
 
-	.btn-delete {
+	.edit-input {
 		width: 100%;
-		padding: var(--s-4) var(--s-2);
-		background: transparent;
-		color: var(--color-error);
-		border: 1.5px solid var(--color-error);
+		padding: var(--s-4) var(--s-3);
+		border: 1.5px solid var(--color-border);
+		border-radius: var(--btn-radius);
+		font-size: var(--font-xs);
+		font-family: var(--font-body);
+		color: var(--color-text);
+		background: white;
+		outline: none;
+		transition: border-color 0.2s ease;
+		box-sizing: border-box;
+	}
+
+	.edit-input:focus {
+		border-color: var(--color-accent-med-light);
+		box-shadow: 0 0 0 2px oklch(from var(--color-accent-light) l c h / 40%);
+	}
+
+	.edit-input:disabled {
+		opacity: 0.5;
+	}
+
+	.btn-row {
+		display: flex;
+		gap: var(--s-4);
+	}
+
+	.btn-row > button {
+		flex: 1;
+		padding: var(--s-4) var(--s-3);
 		border-radius: var(--btn-radius);
 		cursor: pointer;
 		font-weight: 500;
@@ -66,17 +154,56 @@
 		transition: var(--btn-transition);
 	}
 
-	.btn-delete:hover:not(:disabled) {
-		background: var(--color-error);
-		color: white;
-	}
-
-	.btn-delete:active:not(:disabled) {
+	.btn-row > button:active:not(:disabled) {
 		transform: scale(0.98);
 	}
 
-	.btn-delete:disabled {
+	.btn-row > button:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	.btn-edit {
+		background: transparent;
+		color: var(--color-accent-med-light);
+		border: 1.5px solid var(--color-accent-med-light);
+	}
+
+	.btn-edit:hover:not(:disabled) {
+		background: var(--color-accent-med-light);
+		color: white;
+	}
+
+	.btn-save {
+		background: var(--color-accent-med-light);
+		color: white;
+		border: 1.5px solid var(--color-accent-med-light);
+	}
+
+	.btn-save:hover:not(:disabled) {
+		background: var(--color-accent-med);
+		border-color: var(--color-accent-med);
+	}
+
+	.btn-cancel {
+		background: transparent;
+		color: var(--color-text-muted);
+		border: 1.5px solid var(--color-border);
+	}
+
+	.btn-cancel:hover:not(:disabled) {
+		background: var(--color-neutral-100);
+		color: var(--color-text);
+	}
+
+	.btn-delete {
+		background: transparent;
+		color: var(--color-error);
+		border: 1.5px solid var(--color-error);
+	}
+
+	.btn-delete:hover:not(:disabled) {
+		background: var(--color-error);
+		color: white;
 	}
 </style>

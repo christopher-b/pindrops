@@ -101,13 +101,55 @@ function createPinsStore() {
 		}
 	}
 
+	/**
+	 * Update an existing pin's label.
+	 */
+	async function updatePin(did: string, id: string, updates: Partial<Omit<Pin, 'id'>>) {
+		const $agent = get(agent);
+		if (!$agent) throw new Error('Agent not available');
+
+		const rkey = id.split('/').pop();
+		if (!rkey) throw new Error('Could not determine pin rkey');
+
+		// Get the current pin data to merge with updates
+		const currentPins = get(pins);
+		const currentPin = currentPins.find((p) => p.id === id);
+		if (!currentPin) throw new Error('Pin not found');
+
+		const updatedRecord = {
+			lat: updates.lat ?? currentPin.lat,
+			lng: updates.lng ?? currentPin.lng,
+			label: updates.label ?? currentPin.label
+		};
+
+		try {
+			const res = await $agent.com.atproto.repo.putRecord({
+				repo: did,
+				collection: NSID,
+				rkey,
+				record: updatedRecord
+			});
+			if (!res.success) throw new Error(JSON.stringify(res.data));
+
+			pins.update((arr) =>
+				arr.map((p) => (p.id === id ? { ...p, ...updates } : p))
+			);
+
+			return true;
+		} catch (err) {
+			console.error('Failed to update pin:', err);
+			error.set('Failed to update pin');
+		}
+	}
+
 	return {
 		pins,
 		loading,
 		error,
 		fetchPins,
 		addPin,
-		removePin
+		removePin,
+		updatePin
 	};
 }
 
