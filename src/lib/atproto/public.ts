@@ -1,4 +1,4 @@
-import { NSID, type Pin } from '$lib/atproto/schema';
+import { NSID, recordToPin, type Pin } from '$lib/atproto/schema';
 
 const PUBLIC_API = 'https://public.api.bsky.app';
 const ATPROTO_API = 'https://bsky.social';
@@ -35,11 +35,5 @@ export async function fetchPublicPins(did: string): Promise<Pin[]> {
 
 	const data = await res.json();
 
-	return data.records.map((record: any) => ({
-		id: record.uri || record.cid,
-		lat: Number(record.value.lat),
-		lng: Number(record.value.lng),
-		label: record.value.label,
-		date: record.value.date ?? ''
-	}));
+	return data.records.map((record: any) => recordToPin(record));
 }

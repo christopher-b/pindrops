@@ -1,6 +1,6 @@
 import { writable, get } from 'svelte/store';
 import { agent } from '$lib/stores/auth';
-import { NSID, type Pin } from '$lib/atproto/schema';
+import { NSID, recordToPin, type Pin } from '$lib/atproto/schema';
 
 function createPinsStore() {
 	const pins = writable<Pin[]>([]);
@@ -41,13 +41,7 @@ function createPinsStore() {
 			});
 			console.log('fetch pins: ', res);
 
-			const loadedPins: Pin[] = res.data.records.map((record: any) => ({
-				id: record.uri || record.cid,
-				lat: Number(record.value.lat),
-				lng: Number(record.value.lng),
-				label: record.value.label,
-				date: record.value.date ?? ''
-			}));
+			const loadedPins: Pin[] = res.data.records.map((record: any) => recordToPin(record));
 
 			pins.set(loadedPins);
 		} catch (err) {
