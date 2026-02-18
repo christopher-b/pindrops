@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { getOAuthClient } from '$lib/atproto/client';
+	import { onMount } from "svelte";
 	import Card from '$lib/components/ui/Card.svelte';
 	import compassSvg from '$lib/assets/compass.svg';
 
 	let handle = '';
 	let isLoggingIn = false;
 	let error = '';
+	let inputEl: HTMLInputElement;
+
+	onMount(() => {
+		inputEl?.focus();
+	});
 
 	async function onsubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -48,6 +54,7 @@
 			<span class="label-text">Your handle</span>
 			<input
 				type="text"
+				bind:this={inputEl}
 				bind:value={handle}
 				placeholder="your-handle.bsky.social"
 				disabled={isLoggingIn}
