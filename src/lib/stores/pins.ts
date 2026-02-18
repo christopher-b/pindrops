@@ -63,7 +63,7 @@ function createPinsStore() {
 			const res = await $agent.com.atproto.repo.createRecord({
 				repo: did,
 				collection: NSID,
-				record: { ...pin }
+				record: { $type: NSID, ...pin }
 			});
 			if (!res.success) throw new Error(JSON.stringify(res.data));
 
@@ -127,7 +127,7 @@ function createPinsStore() {
 				repo: did,
 				collection: NSID,
 				rkey,
-				record: updatedRecord
+				record: { $type: NSID, ...updatedRecord }
 			});
 			if (!res.success) throw new Error(JSON.stringify(res.data));
 
