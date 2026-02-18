@@ -19,7 +19,7 @@
 	let lat = $state(0);
 	let lng = $state(0);
 	let label = $state('');
-	let form: HTMLFormElement;
+	let form: HTMLFormElement = $state() as HTMLFormElement;
 
 	$effect(() => {
 		if (!map) return;
