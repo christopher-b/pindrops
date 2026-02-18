@@ -18,10 +18,18 @@
 		<p class="text-error">{$authError}</p>
 	</div>
 {:else if !$isAuthenticated}
-	<LoginForm />
+	<div class="auth-form">
+		<LoginForm />
+	</div>
 {/if}
 
 <style>
+	.center,
+	.auth-form {
+		position: relative;
+		z-index: 10;
+	}
+
 	.center {
 		display: flex;
 		flex-direction: column;
