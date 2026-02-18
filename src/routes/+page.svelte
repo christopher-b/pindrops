@@ -40,5 +40,7 @@
 		<PinMarker {pin} />
 	{/each}
 
-	<NewPin />
+	{#if !$isAuthLoading && $isAuthenticated}
+		<NewPin />
+	{/if}
 </MapView>
