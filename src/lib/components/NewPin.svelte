@@ -6,14 +6,43 @@
 	import { did } from '$lib/stores/auth.ts';
 	import { pinStore } from '$lib/stores/pins.ts';
 	import { pinIcon } from '$lib/pinIcon';
+	import { reverseGeocode } from '$lib/geocode';
 	import type { Pin } from '$lib/atproto/schema';
 
 	const map: LeafletMap = getContext<() => LeafletMap>('map')();
 	let showSelf = $state(false);
 	let loading = $state(false);
+	let geocoding = $state(false);
 	let lat = $state(0);
 	let lng = $state(0);
 	let label = $state('');
+
+	let geocodeController: AbortController | null = null;
+
+	function cancelGeocode() {
+		if (geocodeController) {
+			geocodeController.abort();
+			geocodeController = null;
+		}
+	}
+
+	async function lookupLabel(lat: number, lng: number) {
+		cancelGeocode();
+		geocodeController = new AbortController();
+		geocoding = true;
+		try {
+			const result = await reverseGeocode(lat, lng, geocodeController.signal);
+			// Only set label if the user hasn't typed anything while we were loading
+			if (!label) {
+				label = result;
+			}
+		} catch {
+			// AbortError or network failure — leave label empty
+		} finally {
+			geocoding = false;
+			geocodeController = null;
+		}
+	}
 
 	onMount(() => {
 		let justClosedPopup = false;
@@ -21,6 +50,7 @@
 		const handlePopupClose = () => {
 			justClosedPopup = true;
 			showSelf = false;
+			cancelGeocode();
 			// Reset after a tick so only the immediately following click is suppressed
 			setTimeout(() => {
 				justClosedPopup = false;
@@ -32,6 +62,12 @@
 			showSelf = !showSelf;
 			lat = event.latlng.lat;
 			lng = event.latlng.lng;
+			label = '';
+			if (showSelf) {
+				lookupLabel(event.latlng.lat, event.latlng.lng);
+			} else {
+				cancelGeocode();
+			}
 		};
 
 		map.on('popupclose', handlePopupClose);
@@ -40,6 +76,7 @@
 		return () => {
 			map.off('popupclose', handlePopupClose);
 			map.off('click', handleClick);
+			cancelGeocode();
 		};
 	});
 
@@ -68,7 +105,13 @@
 				<h2>New Pin</h2>
 				<label>
 					<span class="label-text">Label</span>
-					<input type="text" name="label" bind:value={label} required placeholder="Name this place..." />
+					<input
+						type="text"
+						name="label"
+						bind:value={label}
+						required
+						placeholder={geocoding ? 'Looking up location...' : 'Name this place...'}
+					/>
 				</label>
 				<button type="submit" class="btn-primary" disabled={loading}>
 					{#if loading}
