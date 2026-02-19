@@ -1,48 +1,54 @@
-# sv
+# PinDrops
 
-TODO
+A map-based pin board built with [SvelteKit](https://svelte.dev/docs/kit) and the [AT Protocol](https://atproto.com/). Sign in with your Bluesky account to drop labeled pins on a world map — your pins are stored as ATProto records in your own repository.
 
-- Fix styles/design
-- Other user page
-- What is this?
-- This Readme
-- Bug: Deleting newly-created pins
+**Live at [pindrops.app](https://pindrops.app)**
 
-Icons from [Phosphor Icons](https://phosphoricons.com)
+## Features
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+- **Bluesky OAuth** — sign in with any AT Protocol / Bluesky handle
+- **Drop pins** — click the map to create labeled location pins
+- **Edit & delete** — manage your own pins inline
+- **View others** — browse any user's public pins at `/view/[handle]`
+- **Fully client-side** — static SPA deployed to Cloudflare Pages, no server required
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [SvelteKit](https://svelte.dev/docs/kit) (static adapter, SPA mode)
+- [Leaflet](https://leafletjs.com/) for maps
+- [@atproto/oauth-client-browser](https://www.npmjs.com/package/@atproto/oauth-client-browser) for authentication
+- [@atproto/api](https://www.npmjs.com/package/@atproto/api) for reading/writing ATProto records
+- [bits-ui](https://www.bits-ui.com/) for UI primitives
+- [Inter](https://rsms.me/inter/) typeface
+- Icons from [Phosphor Icons](https://phosphoricons.com)
 
-```sh
-# create a new project in the current directory
-npx sv create
+## ATProto Schema
 
-# create a new project in my-app
-npx sv create my-app
+Pins are stored under the `app.pindrops.pin` NSID in each user's ATProto repository with the following shape:
+
+```json
+{
+  "lat": 45.5231,
+  "lng": -122.6765,
+  "label": "Portland",
+  "date": "2025-10-13T14:30:00.000Z"
+}
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Development
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+yarn install
+yarn dev
 ```
 
 ## Building
 
-To create a production version of your app:
-
 ```sh
-npm run build
+yarn build
+yarn preview   # preview the production build locally
 ```
 
-You can preview the production build with `npm run preview`.
+## Deployment
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+The app is configured with `@sveltejs/adapter-static` in SPA mode (fallback to `index.html`). It deploys to [Cloudflare Pages](https://pages.cloudflare.com/) with build command `yarn build` and output directory `build`.
